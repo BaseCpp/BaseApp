@@ -9,6 +9,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <memory>
+#include "QtScheduler.h"
 
 class QtApplication : public Poco::Util::Application
 {
@@ -25,7 +26,10 @@ public:
 
     QApplication * app() { return _app.get(); }
 
+
     void init(int argc, char* argv[]);
+
+
 
 protected:
     void initialize(Application& self) override;

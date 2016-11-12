@@ -1,0 +1,94 @@
+//
+// Created by tom on 16-11-12.
+//
+
+#include "AppWidget.h"
+#include <QListWidget>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <async++.h>
+#include "QtScheduler.h"
+#include <list>
+#include <random>
+
+using namespace async;
+using namespace std;
+
+
+struct Data
+{
+public:
+    list<int> values;
+};
+
+AppWidget::AppWidget(QWidget * parent )
+        :QWidget(parent){
+
+    auto hlayout = new QHBoxLayout(this);
+    auto listwdg = new QListWidget(this);
+    auto vlayout = new QVBoxLayout();
+    auto label = new QLabel(this);
+    auto line = new QLineEdit(this);
+    auto btn = new QPushButton(this);
+
+    hlayout->addWidget(listwdg);
+    hlayout->addLayout(vlayout);
+    vlayout->addWidget(label);
+    vlayout->addWidget(line);
+    vlayout->addWidget(btn);
+    vlayout->addStretch();
+
+    connect(btn, &QPushButton::pressed, [listwdg, line, label, btn]() {
+        auto gen = spawn( []() ->Data {
+            auto r = rand();
+            r = 10;
+            Data d;
+            for(int i=0; i < r; i++)
+                d.values.push_back(i);
+            return d;
+        }).share();
+
+        auto showlist = gen.then(qtui(), [listwdg, label](Data l)->void {
+            try{
+                Data d = l; //.get();
+                listwdg->clear();
+                for(auto i : d.values )  {
+                    listwdg->addItem(QString::number(i));
+                }
+            }
+            catch (...)   {
+                label->setText("error, showlist ");
+            }
+        });
+
+        auto sumlist = gen.then([label](Data l) ->int {
+            try {
+                return parallel_map_reduce(l.values, 0,[label](int x) {
+                    return x ;
+                }, [](int x, int y) {
+                    return x + y;
+                });
+            }
+            catch (...)
+            {
+                spawn(qtui(), [label](){
+                    label->setText("error, sumlist");
+                });
+            }
+        });
+
+        auto showsum = sumlist.then(qtui(), [label](task<int> v){
+            try{
+                label->setNum(v.get());
+            }
+            catch (...)
+            {
+                label->setText("error, showsum");
+            }
+        });
+    });
+
+}

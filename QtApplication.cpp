@@ -3,15 +3,67 @@
 //
 
 #include "QtApplication.h"
-#include "Poco/Util/Option.h"
-#include "Poco/Util/OptionSet.h"
 #include "Poco/Util/HelpFormatter.h"
-#include "Poco/Util/AbstractConfiguration.h"
-#include "Poco/AutoPtr.h"
+#include "QtScheduler.h"
 #include <iostream>
 #include <sstream>
+#include "AppWidget.h"
 
 using namespace Poco::Util;
+
+
+class MyEvent : public QEvent {
+public:
+    MyEvent(async::task_run_handle &&t)
+            : QEvent(QEvent::User), _handle(std::move(t)) {
+        ;
+    }
+
+    async::task_run_handle _handle;
+};
+
+class QtSchedulerImpl : public QtScheduler, public QObject
+{
+public:
+    QtSchedulerImpl(QObject * parent)
+            :QObject(parent)
+    {
+        ;
+    }
+
+    void schedule(async::task_run_handle t)
+    {
+        qApp->postEvent(this, new MyEvent(std::move(t)), Qt::HighEventPriority);
+    }
+
+    bool event(QEvent * ev)
+    {
+        //bool accept = QObject::event(ev);
+        //if( accept )
+        //    return true;
+
+        //cast event to myEvent
+        if( ev->type() == QEvent::User) {
+            MyEvent *myEvent = dynamic_cast<MyEvent *>(ev);
+            if (myEvent) {
+                myEvent->_handle.run();
+                myEvent->accept();
+                return true;
+            }
+        }
+        return false;
+    }
+
+};
+
+
+
+static QtSchedulerImpl * globalptr = nullptr;
+QtScheduler & qtui() {
+    Q_ASSERT(globalptr);
+    return *globalptr;
+}
+
 
 
 void QtApplication::init(int argc, char * argv[] )
@@ -24,28 +76,24 @@ void QtApplication::init(int argc, char * argv[] )
 void QtApplication::initialize(Application& self)
 {
     loadConfiguration();
-    _app = std::make_shared<QApplication>(_argc, _argv);
+    _app.reset(new QApplication(_argc, _argv));
+    ::globalptr = new QtSchedulerImpl(_app.get());
+
+
     loadConfiguration(); // load default configuration files, if present
     Application::initialize(self);
 }
 
+
 void QtApplication::uninitialize()
 {
     Application::uninitialize();
+    ::globalptr = nullptr;
     _app.reset();
 }
 
 void QtApplication::reinitialize(Application &self) {
     Application::reinitialize(self);
-}
-
-void QtApplication::setupMainUi() {
-    _main = std::make_shared<QMainWindow>();
-    _main->show();
-}
-
-void QtApplication::shotdownMainUi() {
-    _main.reset();
 }
 
 void QtApplication::defineOptions(OptionSet& options)
@@ -145,6 +193,17 @@ void QtApplication::printProperties(const std::string& base)
             printProperties(fullKey);
         }
     }
+}
+
+void QtApplication::setupMainUi() {
+    _main = std::make_shared<QMainWindow>();
+    _main->resize(800, 600);
+    _main->setCentralWidget(new AppWidget(_main.get()));
+    _main->show();
+}
+
+void QtApplication::shotdownMainUi() {
+    _main.reset();
 }
 
 int QtApplication::main(const std::vector<std::string>& args)

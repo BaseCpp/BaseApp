@@ -3,4 +3,17 @@
 //
 
 #include "QtApplication.h"
-POCO_APP_MAIN(QtApplication)
+int main(int argc, char** argv)
+{
+    Poco::AutoPtr<QtApplication> pApp = new QtApplication;
+    try
+    {
+        pApp->init(argc, argv);
+    }
+    catch (Poco::Exception& exc)
+    {
+        pApp->logger().log(exc);
+        return Poco::Util::Application::EXIT_CONFIG;
+    }
+    return pApp->run();
+}

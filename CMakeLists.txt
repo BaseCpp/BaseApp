@@ -47,9 +47,15 @@ find_package(Qt5Widgets REQUIRED)
 # ┌──────────────────────────────────────────────────────────────────┐
 # │  main                                                            │
 # └──────────────────────────────────────────────────────────────────┘
-set( headers QtApplication.h)
+set( headers
+        QtApplication.h
+        QtScheduler.h
+        AppWidget.h)
+
 set( srcs main.cpp
-        QtApplication.cpp)
+        QtApplication.cpp
+        AppWidget.cpp
+        )
 
 add_executable(baseapp ${srcs})
 target_link_libraries(baseapp
