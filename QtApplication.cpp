@@ -10,7 +10,6 @@
 
 using namespace Poco::Util;
 
-
 class MyEvent : public QEvent {
 public:
     MyEvent(async::task_run_handle &&t)
