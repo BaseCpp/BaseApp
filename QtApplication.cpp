@@ -39,7 +39,6 @@ public:
         //bool accept = QObject::event(ev);
         //if( accept )
         //    return true;
-
         //cast event to myEvent
         if( ev->type() == QEvent::User) {
             MyEvent *myEvent = dynamic_cast<MyEvent *>(ev);
