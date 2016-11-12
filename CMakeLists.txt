@@ -32,19 +32,28 @@ find_package(Poco REQUIRED Foundation Util XML Net Zip  CONFIG)
 # ┌──────────────────────────────────────────────────────────────────┐
 # │  Qt                                                              │
 # └──────────────────────────────────────────────────────────────────┘
+# CMAKE_PREFIX_PATH
 set( CMAKE_AUTOMOC ON )
 set( CMAKE_AUTOUIC ON )
 #hunter_add_package(Qt)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED)
+# Generate code from ui files
+#qt5_wrap_ui(UI_HEADERS mainwindow.ui)
+# Generate rules for building source files from the resources
+#qt5_add_resources(QRCS resources.qrc)
 
 # ┌──────────────────────────────────────────────────────────────────┐
 # │  main                                                            │
 # └──────────────────────────────────────────────────────────────────┘
-add_executable(baseapp main.cpp)
+set( headers QtApplication.h)
+set( srcs main.cpp
+        QtApplication.cpp)
+
+add_executable(baseapp ${srcs})
 target_link_libraries(baseapp
         Async++::Async++
         Poco::Foundation Poco::Util Poco::XML Poco::Net
-        Qt5Core Qt5Gui Qt5Widgets
+        Qt5::Core Qt5::Gui Qt5::Widgets
         )

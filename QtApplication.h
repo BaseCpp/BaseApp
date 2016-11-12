@@ -9,40 +9,58 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <memory>
-namespace Poco
+
+class QtApplication : public Poco::Util::Application
 {
-    namespace Util
-    {
-        class QtApplication : public Application
-        {
-        public:
+public:
 
-            ///   - initialize() (the one-argument, protected variant)
-            ///   - uninitialize()
-            ///   - reinitialize()
-            ///   - defineOptions()
-            ///   - handleOption()
-            ///   - main()
+    QtApplication() = default;
 
-            QApplication * app() { return _app.get(); }
+    ///   - initialize() (the one-argument, protected variant)
+    ///   - uninitialize()
+    ///   - reinitialize()
+    ///   - defineOptions()
+    ///   - handleOption()
+    ///   - main()
 
-        protected:
-            void initialize(Application& self) override;
+    QApplication * app() { return _app.get(); }
 
-            void uninitialize() override;
+    void init(int argc, char* argv[]);
 
-            void reinitialize(Application& self);
+protected:
+    void initialize(Application& self) override;
 
-            int main(const ArgVec& args) override;
+    void uninitialize() override;
 
-            virtual void setupMainUi() ;
+    void reinitialize(Poco::Util::Application& self);
 
-        private:
-            std::shared_ptr<QMainWindow> _main;
-            std::shared_ptr<QApplication> _app;
-        };
-    }
-}
+    int main(const std::vector<std::string>& args) override;
+
+    virtual void setupMainUi() ;
+
+    virtual void shotdownMainUi();
+
+    void defineOptions(Poco::Util::OptionSet& options) override;
+
+    void handleHelp(const std::string& name, const std::string& value);
+
+    void handleDefine(const std::string& name, const std::string& value);
+
+    void handleConfig(const std::string& name, const std::string& value);
+
+    void displayHelp();
+
+    void defineProperty(const std::string& def);
+
+    void printProperties(const std::string& base);
+
+private:
+    bool _helpRequested = false;
+    int _argc;
+    char ** _argv;
+    std::shared_ptr<QMainWindow> _main;
+    std::shared_ptr<QApplication> _app;
+};
 
 
 #endif //BASEAPP_QTSUBSYSTEM_H

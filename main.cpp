@@ -3,9 +3,4 @@
 //
 
 #include "QtApplication.h"
-int main(int argc, char ** argv )
-{
-    QtApplication app;
-    app.init(argc, argv);
-    return true;
-}
+POCO_APP_MAIN(QtApplication)
