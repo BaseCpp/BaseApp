@@ -1,0 +1,8 @@
+[submodule "gate"]
+  path = gate
+  url = https://github.com/hunter-packages/gate
+
+[submodule "wiki"]
+  path = wiki
+  url = https://github.com/BaseCpp/BaseApp.wiki.git
+

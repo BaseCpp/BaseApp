@@ -17,7 +17,6 @@ public:
             : QEvent(QEvent::User), _handle(std::move(t)) {
         ;
     }
-
     async::task_run_handle _handle;
 };
 
