@@ -44,16 +44,16 @@ AppWidget::AppWidget(QWidget * parent )
     connect(btn, &QPushButton::pressed, [listwdg, line, label, btn]() {
         auto gen = spawn( []() ->Data {
             auto r = rand();
-            r = 10;
+            r = r%30;
             Data d;
             for(int i=0; i < r; i++)
                 d.values.push_back(i);
             return d;
         }).share();
 
-        auto showlist = gen.then(qtui(), [listwdg, label](Data l)->void {
+        auto showlist = gen.then(qtui(), [listwdg, label](shared_task<Data> l)->void {
             try{
-                Data d = l; //.get();
+                Data d = l.get(); //.get();
                 listwdg->clear();
                 for(auto i : d.values )  {
                     listwdg->addItem(QString::number(i));
@@ -64,9 +64,9 @@ AppWidget::AppWidget(QWidget * parent )
             }
         });
 
-        auto sumlist = gen.then([label](Data l) ->int {
+        auto sumlist = gen.then([label](shared_task<Data> l) ->int {
             try {
-                return parallel_map_reduce(l.values, 0,[label](int x) {
+                return parallel_map_reduce(l.get().values, 0,[label](int x) {
                     return x ;
                 }, [](int x, int y) {
                     return x + y;
