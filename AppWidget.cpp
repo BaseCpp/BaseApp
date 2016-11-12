@@ -89,5 +89,4 @@ AppWidget::AppWidget(QWidget * parent )
             }
         });
     });
-
 }
