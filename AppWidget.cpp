@@ -5,14 +5,11 @@
 #include "AppWidget.h"
 #include <QListWidget>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <async++.h>
 #include "QtScheduler.h"
-#include <list>
-#include <random>
 
 using namespace async;
 using namespace std;
@@ -51,6 +48,7 @@ AppWidget::AppWidget(QWidget * parent )
             return d;
         }).share();
 
+        // need shared_task<Data>, rather than task<Data>
         auto showlist = gen.then(qtui(), [listwdg, label](shared_task<Data> l)->void {
             try{
                 Data d = l.get(); //.get();
@@ -64,6 +62,7 @@ AppWidget::AppWidget(QWidget * parent )
             }
         });
 
+        // need shared_task<Data>, rather than task<Data>
         auto sumlist = gen.then([label](shared_task<Data> l) ->int {
             try {
                 return parallel_map_reduce(l.get().values, 0,[label](int x) {

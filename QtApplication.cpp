@@ -4,7 +4,6 @@
 
 #include "QtApplication.h"
 #include "Poco/Util/HelpFormatter.h"
-#include "QtScheduler.h"
 #include <iostream>
 #include <sstream>
 #include "AppWidget.h"
@@ -38,6 +37,7 @@ public:
 
     bool event(QEvent * ev)
     {
+        //SHOULD N
         //bool accept = QObject::event(ev);
         //if( accept )
         //    return true;
@@ -60,7 +60,7 @@ public:
 
 static QtSchedulerImpl * globalptr = nullptr;
 QtScheduler & qtui() {
-    Q_ASSERT(globalptr);
+    Q_ASSERT(globalptr && "SHOULD CALL qiui() between QtApplication::initialize~uninitialize");
     return *globalptr;
 }
 
