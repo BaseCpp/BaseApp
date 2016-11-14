@@ -7,6 +7,7 @@ Example Application build with:
 * [Poco](https://github.com/pocoproject/poco)
     Application
 * [Async++](https://github.com/Amanieu/asyncplusplus)
-    shared_task, task
+    shared_task, task, spawn
 * [Qt](qt-project.org)
     QCoreApplication::postEvent()
+
