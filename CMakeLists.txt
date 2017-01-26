@@ -30,6 +30,39 @@ find_package(Poco REQUIRED Foundation Util XML Net Zip  CONFIG)
 
 
 # ┌──────────────────────────────────────────────────────────────────┐
+# │  Boost                                                           │
+# └──────────────────────────────────────────────────────────────────┘
+set(BoostMod
+        atomic
+        chrono
+        context
+        coroutine
+        date_time
+        exception
+        filesystem
+        graph
+        graph_parallel
+        iostreams
+        locale
+        log
+        math
+        mpi
+        program_options
+        python
+        random
+        regex
+        serialization
+        signals
+        system
+        test
+        thread
+        timer
+        wave)
+hunter_add_package(Boost COMPONENTS ${BoostMod})
+#find_package(Boost CONFIG REQUIRED  ${BoostMod})
+
+
+# ┌──────────────────────────────────────────────────────────────────┐
 # │  Qt                                                              │
 # └──────────────────────────────────────────────────────────────────┘
 # CMAKE_PREFIX_PATH
@@ -44,6 +77,13 @@ find_package(Qt5Widgets REQUIRED)
 # Generate rules for building source files from the resources
 #qt5_add_resources(QRCS resources.qrc)
 
+
+# ┌──────────────────────────────────────────────────────────────────┐
+# │  Zlib                                                            │
+# └──────────────────────────────────────────────────────────────────┘
+hunter_add_package(ZLIB)
+find_package(ZLIB CONFIG REQUIRED)
+
 # ┌──────────────────────────────────────────────────────────────────┐
 # │  main                                                            │
 # └──────────────────────────────────────────────────────────────────┘
@@ -55,6 +95,7 @@ set( headers
 set( srcs main.cpp
         QtApplication.cpp
         AppWidget.cpp
+        QtScheduler.cpp
         )
 
 add_executable(baseapp ${srcs})
@@ -62,4 +103,5 @@ target_link_libraries(baseapp
         Async++::Async++
         Poco::Foundation Poco::Util Poco::XML Poco::Net
         Qt5::Core Qt5::Gui Qt5::Widgets
+        ZLIB::zlib
         )

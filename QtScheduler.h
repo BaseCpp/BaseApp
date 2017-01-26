@@ -13,6 +13,7 @@ class QtScheduler
 public:
     virtual ~QtScheduler() = default;
     virtual void schedule(async::task_run_handle t) = 0;
+    static QtScheduler & instance();
 };
 
 QtScheduler & qtui() ;
