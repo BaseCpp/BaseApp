@@ -14,6 +14,9 @@ public:
             : QEvent(QEvent::User), _handle(std::move(t)) {
         ;
     }
+
+    async::task_run_handle get() { return std::move(_handle); }
+private:
     async::task_run_handle _handle;
 };
 
@@ -23,7 +26,6 @@ public:
     QtSchedulerImpl()
     {
         Q_ASSERT(qApp);
-        this->setParent(qApp);
     }
 
     void schedule(async::task_run_handle t)
@@ -41,7 +43,7 @@ public:
         if( ev->type() == QEvent::User) {
             MyEvent *myEvent = dynamic_cast<MyEvent *>(ev);
             if (myEvent) {
-                myEvent->_handle.run();
+                myEvent->get().run();
                 myEvent->accept();
                 return true;
             }
@@ -51,11 +53,12 @@ public:
 };
 
 
-
+QtSchedulerImpl * gSch = nullptr;
+std::once_flag flag;
 
 QtScheduler & QtScheduler::instance() {
-      static Poco::SingletonHolder<QtSchedulerImpl> sh;
-      return *sh.get();
+      std::call_once(flag, [](){gSch = new QtSchedulerImpl;});
+      return *gSch;
 }
 
 
