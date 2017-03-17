@@ -29,38 +29,6 @@ hunter_add_package(PocoCpp)
 find_package(Poco REQUIRED Foundation Util XML Net Zip  CONFIG)
 
 
-# ┌──────────────────────────────────────────────────────────────────┐
-# │  Boost                                                           │
-# └──────────────────────────────────────────────────────────────────┘
-set(BoostMod
-        atomic
-        chrono
-        context
-        coroutine
-        date_time
-        exception
-        filesystem
-        graph
-        graph_parallel
-        iostreams
-        locale
-        log
-        math
-        mpi
-        program_options
-        python
-        random
-        regex
-        serialization
-        signals
-        system
-        test
-        thread
-        timer
-        wave)
-hunter_add_package(Boost COMPONENTS ${BoostMod})
-#find_package(Boost CONFIG REQUIRED  ${BoostMod})
-
 
 # ┌──────────────────────────────────────────────────────────────────┐
 # │  Qt                                                              │
@@ -84,6 +52,22 @@ find_package(Qt5Widgets REQUIRED)
 hunter_add_package(ZLIB)
 find_package(ZLIB CONFIG REQUIRED)
 
+
+# ┌──────────────────────────────────────────────────────────────────┐
+# │  Boost                                                           │
+# └──────────────────────────────────────────────────────────────────┘
+if(WIN32)    
+    SET(BOOST_ROOT "F:/github.cpp-repo/boost_1_61_0")
+        SET(Boost_USE_STATIC_LIBS ON)
+        add_definitions(-D_WIN32_WINNT=0x0601)
+        FIND_PACKAGE( Boost 1.6.0 COMPONENTS atomic system log filesystem thread date_time timer serialization regex iostreams chrono log_setup REQUIRED )
+else(WIN32)
+	hunter_add_package(Boost ) # COMPONENTS ${BoostMod})
+        FIND_PACKAGE( Boost 1.6.0 COMPONENTS atomic system log filesystem thread date_time timer serialization regex iostreams chrono log_setup REQUIRED )
+endif(WIN32)
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} .)
+
+
 # ┌──────────────────────────────────────────────────────────────────┐
 # │  main                                                            │
 # └──────────────────────────────────────────────────────────────────┘
@@ -105,3 +89,6 @@ target_link_libraries(baseapp
         Qt5::Core Qt5::Gui Qt5::Widgets
         ZLIB::zlib
         )
+
+
+add_subdirectory(boost)

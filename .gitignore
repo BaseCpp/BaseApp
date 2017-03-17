@@ -25,3 +25,7 @@ _Base
 # emacs junk
 *.*~
 *~
+/build/
+/build-gui/
+/build-jom/
+/CMakeLists.txt.user

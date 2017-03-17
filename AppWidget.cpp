@@ -39,7 +39,7 @@ AppWidget::AppWidget(QWidget * parent )
     vlayout->addStretch();
 
     connect(btn, &QPushButton::pressed, [listwdg, line, label, btn]() {
-        auto gen = spawn( []() ->Data {
+		auto gen = spawn( []() ->Data {
             auto r = rand();
             r = r%30;
             Data d;
@@ -77,6 +77,7 @@ AppWidget::AppWidget(QWidget * parent )
                     label->setText("error, sumlist");
                 });
             }
+			return 0;
         });
 
         auto showsum = sumlist.then(qtui(), [label](task<int> v){
