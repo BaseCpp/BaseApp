@@ -1,6 +1,6 @@
 [submodule "gate"]
   path = gate
-  url = https://github.com/hunter-packages/gate
+  url = https://github.com/hunter-packages/gate.git
 
 [submodule "wiki"]
   path = wiki
@@ -10,9 +10,6 @@
   path = thirdparty/boost/magic_get
   url = https://github.com/apolukhin/magic_get.git
 
-[submodule "stacktrace"]
-  path = thirdparty/boost/stacktrace
-  url = https://github.com/apolukhin/stacktrace.git
 
 [submodule "di"]
   path = thirdparty/boost/di
@@ -21,3 +18,7 @@
 [submodule "application"]
   path = thirdparty/boost/application
   url = https://github.com/retf/Boost.Application.git
+  
+[submodule "stacktrace"]
+	path = thirdparty/stacktrace
+	url = https://github.com/apolukhin/stacktrace.git
