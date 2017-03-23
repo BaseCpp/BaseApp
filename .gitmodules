@@ -14,3 +14,6 @@
 [submodule "thirdparty/boost/Boost.Application"]
 	path = thirdparty/boost/Boost.Application
 	url = https://github.com/retf/Boost.Application.git
+[submodule "thirdparty/boost/boost.http"]
+	path = thirdparty/boost/boost.http
+	url = https://github.com/BoostGSoC14/boost.http.git
