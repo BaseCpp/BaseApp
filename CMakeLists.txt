@@ -1,4 +1,4 @@
-
+﻿
 cmake_minimum_required(VERSION 3.0)
 
 
@@ -56,14 +56,30 @@ find_package(ZLIB CONFIG REQUIRED)
 # ┌──────────────────────────────────────────────────────────────────┐
 # │  Boost                                                           │
 # └──────────────────────────────────────────────────────────────────┘
+set(BoostLibs
+    context
+    coroutine
+    atomic
+    system
+    log
+    filesystem
+    thread
+    date_time
+    timer
+    serialization
+    regex
+    iostreams
+    chrono
+    log_setup )
+
 if(WIN32)    
     SET(BOOST_ROOT "F:/github.cpp-repo/boost_1_61_0")
         SET(Boost_USE_STATIC_LIBS ON)
         add_definitions(-D_WIN32_WINNT=0x0601)
-        FIND_PACKAGE( Boost 1.6.0 COMPONENTS atomic system log filesystem thread date_time timer serialization regex iostreams chrono log_setup REQUIRED )
+        FIND_PACKAGE( Boost 1.6.0 COMPONENTS ${BoostLibs} REQUIRED )
 else(WIN32)
 	hunter_add_package(Boost ) # COMPONENTS ${BoostMod})
-        FIND_PACKAGE( Boost 1.6.0 COMPONENTS atomic system log filesystem thread date_time timer serialization regex iostreams chrono log_setup REQUIRED )
+        FIND_PACKAGE( Boost 1.6.0 COMPONENTS ${BoostLibs} REQUIRED )
 endif(WIN32)
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} .)
 
