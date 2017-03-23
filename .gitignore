@@ -29,3 +29,5 @@ _Base
 /build-gui/
 /build-jom/
 /CMakeLists.txt.user
+*.cproject
+*.project
