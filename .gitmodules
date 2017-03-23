@@ -3,7 +3,7 @@
 	path = gate
 	url = https://github.com/hunter-packages/gate.git
 [submodule "thirdparty/stacktrace"]
-	path = thridparty/stacktrace
+	path = thirdparty/stacktrace
 	url = https://github.com/apolukhin/stacktrace.git
 [submodule "thirdparty/boost/di"]
 	path = thridparty/boost/di
