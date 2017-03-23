@@ -2,6 +2,15 @@
 [submodule "gate"]
 	path = gate
 	url = https://github.com/hunter-packages/gate.git
-[submodule "thridparty/stacktrace"]
+[submodule "thirdparty/stacktrace"]
 	path = thridparty/stacktrace
 	url = https://github.com/apolukhin/stacktrace.git
+[submodule "thirdparty/boost/di"]
+	path = thridparty/boost/di
+	url = https://github.com/boost-experimental/di.git
+[submodule "thirdparty/boost/magic_get"]
+	path = thirdparty/boost/magic_get
+	url = https://github.com/apolukhin/magic_get.git
+[submodule "thirdparty/boost/Boost.Application"]
+	path = thirdparty/boost/Boost.Application
+	url = https://github.com/retf/Boost.Application.git
