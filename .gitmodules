@@ -3,7 +3,7 @@
 	path = gate
 	url = https://github.com/hunter-packages/gate.git
 [submodule "thirdparty/stacktrace"]
-	path = thridparty/stacktrace
+	path = thirdparty/stacktrace
 	url = https://github.com/apolukhin/stacktrace.git
 [submodule "thirdparty/boost/di"]
 	path = thridparty/boost/di
@@ -14,3 +14,6 @@
 [submodule "thirdparty/boost/Boost.Application"]
 	path = thirdparty/boost/Boost.Application
 	url = https://github.com/retf/Boost.Application.git
+[submodule "thirdparty/boost/boost.http"]
+	path = thirdparty/boost/boost.http
+	url = https://github.com/BoostGSoC14/boost.http.git
