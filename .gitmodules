@@ -17,3 +17,6 @@
 [submodule "thirdparty/boost/stacktrace"]
 	path = thirdparty/boost/stacktrace
 	url = https://github.com/apolukhin/stacktrace.git
+[submodule "wiki"]
+	path = wiki
+	url = https://github.com/cpp-repo/BaseApp.wiki.git
