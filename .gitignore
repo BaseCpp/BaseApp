@@ -31,3 +31,4 @@ _Base
 /CMakeLists.txt.user
 *.cproject
 *.project
+/.vscode/
